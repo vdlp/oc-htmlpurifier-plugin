@@ -1,22 +1,17 @@
 <?php
 
+/** @noinspection PhpMissingParentCallCommonInspection */
+
+declare(strict_types=1);
+
 namespace Vdlp\HtmlPurifier;
 
-use App;
 use HTMLPurifier;
 use System\Classes\PluginBase;
 
-/**
- * Class Plugin
- *
- * @package Vdlp\HtmlPurifier
- */
 class Plugin extends PluginBase
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function pluginDetails()
+    public function pluginDetails(): array
     {
         return [
             'name' => 'vdlp.htmlpurifier::lang.plugin.name',
@@ -27,24 +22,18 @@ class Plugin extends PluginBase
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function boot()
+    public function boot(): void
     {
-        App::register(HtmlPurifierServiceProvider::class);
+        $this->app->register(HtmlPurifierServiceProvider::class);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function registerMarkupTags()
+    public function registerMarkupTags(): array
     {
         return [
             'filters' => [
                 'purify' => function ($html) {
                     /** @var HTMLPurifier $purifier */
-                    $purifier = App::make(HTMLPurifier::class);
+                    $purifier = $this->app->make(HTMLPurifier::class);
                     return $purifier->purify($html);
                 },
             ],
