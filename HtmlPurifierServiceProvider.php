@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Vdlp\HtmlPurifier;
 
 use HTMLPurifier;
@@ -7,50 +9,30 @@ use HTMLPurifier_Config;
 use October\Rain\Config\Repository;
 use October\Rain\Support\ServiceProvider;
 
-/**
- * Class HtmlPurifierServiceProvider
- *
- * @package Vdlp\HtmlPurifier\ServiceProviders
- */
 class HtmlPurifierServiceProvider extends ServiceProvider
 {
-    /**
-     * Bootstrap the application events.
-     *
-     * @return void
-     */
-    public function boot()
+    public function boot(): void
     {
-        $this->publishes(
-            [
-                $this->getConfigPath() => $this->getConfigPublishPath(),
-            ],
-            'config'
-        );
+        $this->publishes([
+            $this->getConfigPath() => $this->getConfigPublishPath(),
+        ], 'config');
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function register()
+    public function register(): void
     {
         $this->mergeConfigFrom($this->getConfigPath(), 'htmlpurifier');
 
-        $this->app->singleton(HTMLPurifier::class, function ($app) {
+        $this->app->singleton(HTMLPurifier::class, static function ($app) {
             /** @var Repository $repository */
             $repository = $app['config'];
 
-            /** @var HTMLPurifier_Config $config */
             $config = HTMLPurifier_Config::create($repository->get('htmlpurifier'));
 
             return new HTMLPurifier($config);
         });
     }
 
-    /**
-     * @return string
-     */
-    private function getConfigPublishPath()
+    private function getConfigPublishPath(): string
     {
         if (function_exists('config_path')) {
             return config_path('htmlpurifier.php');
@@ -59,10 +41,7 @@ class HtmlPurifierServiceProvider extends ServiceProvider
         return base_path('config/htmlpurifier.php');
     }
 
-    /**
-     * @return string
-     */
-    private function getConfigPath()
+    private function getConfigPath(): string
     {
         return __DIR__ . '/config/htmlpurifier.php';
     }
