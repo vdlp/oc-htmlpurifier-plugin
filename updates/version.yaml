@@ -2,3 +2,4 @@
 1.0.1: Update plugin LICENSE
 2.0.0: Update library and minimal required PHP version
 2.0.1: Update plugin dependencies
+3.0.0: Library removed and dependency added

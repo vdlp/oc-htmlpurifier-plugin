@@ -14,15 +14,8 @@
         }
     ],
     "require": {
-        "php": "^7.1||^8.0",
-        "composer/installers": "^1.0"
-    },
-    "autoload": {
-        "psr-0": {
-            "HTMLPurifier": "library/"
-        },
-        "files": [
-            "library/HTMLPurifier.composer.php"
-        ]
+        "php": "^8.0.2",
+        "composer/installers": "^1.0",
+        "ezyang/htmlpurifier": "^4.16"
     }
 }
